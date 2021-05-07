@@ -10,6 +10,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -18,24 +20,30 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Visita {
 
-	 @EqualsAndHashCode.Include
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	 @Id
-	 private Long id;
-	 
-	 //@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm")
-	 //@NotNull
-	 private LocalDateTime dataDaVisita;
-	 
-	 @NotNull
-	 private String setor;
-	 
-	 private String observacao;
-     
-	 
-	 @NotNull
-	 @ManyToOne
-	 @JoinColumn(name = "visitante_id")
-     private Visitante visitante;
-	 	 
+	@EqualsAndHashCode.Include
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	private Long id;
+
+	@DateTimeFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+	// @NotNull
+	private LocalDateTime dataDaVisita;
+
+	@NotNull
+	private String setor;
+
+	private String observacao;
+
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "visitante_id")
+	private Visitante visitante;
+
+	public LocalDateTime dataEHoraAtual() {
+
+		dataDaVisita = LocalDateTime.now();
+
+		return dataDaVisita;
+	}
+
 }

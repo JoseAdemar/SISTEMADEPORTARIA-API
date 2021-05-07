@@ -44,16 +44,16 @@ public class VisitanteService {
 	}
 
 	// Metodo para buscar por CPF
-	@SuppressWarnings("null")
-	public Visitante buscarPorCpf(Visitante visitante) {
+	
+	public Visitante buscarPorCpf(String cpf) {
 
-		Optional<Visitante> buscarVisitante = visitanteRepository.findCpfByCpf(visitante.getCpf());
+		Optional<Visitante> buscarCpf = visitanteRepository.findCpfByCpfContaining(cpf);
 
-		if (buscarVisitante != null) {
+		if (buscarCpf.isPresent()) {
 
-			return visitanteRepository.findCpfByCpf(visitante.getCpf()).get();
+			return visitanteRepository.findCpfByCpfContaining(cpf).get();
 		}
-		return buscarVisitante.get();
+		return buscarCpf.get();
 
 	}
 

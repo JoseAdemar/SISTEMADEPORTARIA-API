@@ -1,10 +1,12 @@
 package com.sistemadeportaria.api.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,5 +39,15 @@ public class VisitaController {
 		   Visita visitas = visitaService.cadastrarVisita(visita);
 		   
 		   return ResponseEntity.status(HttpStatus.CREATED).body(visitas);
+	}
+	
+
+	@GetMapping("/{busca}")
+	public ResponseEntity<Visita> buscarVisita(@Param(value = "busca") LocalDateTime visitaData){
+		
+		Visita buscaVisitas = visitaService.pesquisarVisitaPorDataECpf(visitaData);
+		
+		return ResponseEntity.status(HttpStatus.OK).body(buscaVisitas);
+		
 	}
 }

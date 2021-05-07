@@ -46,12 +46,12 @@ public class VisitanteController {
 		 return ResponseEntity.status(HttpStatus.OK).body(listaVisitante);
 	}
 	
-	@GetMapping("/{cpf}")
-	public ResponseEntity<Visitante> buscaVisitantePorCpf(@Param("cpf") Visitante visitante){
+	@GetMapping("/busca-cpf")
+	public ResponseEntity<Visitante> buscaVisitantePorCpf(@Param("busca-cpf")String cpf){
 		
-		   Visitante visitanteBusca = visitanteService.buscarPorCpf(visitante);
+		   Visitante visitanteBuscaCpf = visitanteService.buscarPorCpf(cpf);
 		   
-		   return ResponseEntity.status(HttpStatus.OK).body(visitanteBusca);
+		   return ResponseEntity.status(HttpStatus.OK).body(visitanteBuscaCpf);
 	}
 	
 	@PutMapping("/{id}")
