@@ -10,5 +10,5 @@ import com.sistemadeportaria.api.model.Visitante;
 @Repository
 public interface VisitanteRepository extends JpaRepository<Visitante, Long> {
 
-	Optional<Visitante> findCpfByCpfContaining(String cpf);
+	Optional<Visitante> findByCpf(String cpf);
 }

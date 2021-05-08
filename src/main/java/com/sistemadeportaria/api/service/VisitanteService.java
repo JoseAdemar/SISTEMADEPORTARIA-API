@@ -44,14 +44,15 @@ public class VisitanteService {
 	}
 
 	// Metodo para buscar por CPF
-	
+
 	public Visitante buscarPorCpf(String cpf) {
 
-		Optional<Visitante> buscarCpf = visitanteRepository.findCpfByCpfContaining(cpf);
+		Optional<Visitante> buscarCpf = visitanteRepository.findByCpf(cpf);
 
 		if (buscarCpf.isPresent()) {
 
-			return visitanteRepository.findCpfByCpfContaining(cpf).get();
+			return buscarCpf.get();
+
 		}
 		return buscarCpf.get();
 
@@ -74,16 +75,17 @@ public class VisitanteService {
 
 	// Metodo para deletarUmVisitante
 
-	public Visitante deletarVisitantePorId(Long id) {
+	public void deletarVisitantePorId(Long id) {
 
-		Visitante deletar = visitanteRepository.findById(id).get();
-		
-		if(deletar != null) {
-			
-			visitanteRepository.delete(deletar);
+		try {
+
+			visitanteRepository.deleteById(id);
+
+		} catch (EmptyResultDataAccessException e) {
+
+			throw new EntidadeNaoEncontradaException(
+					String.format("Não existe um cadastro de visitante com código %d", id));
 		}
-		
-		return deletar;
 
 	}
 

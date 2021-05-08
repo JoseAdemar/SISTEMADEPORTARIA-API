@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sistemadeportaria.api.execoes.EntidadeNaoEncontradaException;
 import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.service.VisitanteService;
 
@@ -24,58 +25,55 @@ import com.sistemadeportaria.api.service.VisitanteService;
 @RequestMapping("/visitantes")
 public class VisitanteController {
 
-	 @Autowired
-	 private VisitanteService visitanteService;
-	 
+	@Autowired
+	private VisitanteService visitanteService;
+
 	@PostMapping
 	public ResponseEntity<Visitante> cadastroDeVisitante(@Valid @RequestBody Visitante visitante) {
-		
-		  Visitante salvaVisitante = visitanteService.cadastrarVisitante(visitante);
-		  
-		  return ResponseEntity.status(HttpStatus.CREATED).body(salvaVisitante);
-		  
-		  
-		
+
+		Visitante salvaVisitante = visitanteService.cadastrarVisitante(visitante);
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(salvaVisitante);
+
 	}
-	
+
 	@GetMapping
-	public ResponseEntity<List<Visitante>> listaDeVisitantes(){
-		
-		 List<Visitante> listaVisitante = visitanteService.ListarTodosVisitantes();
-		 
-		 return ResponseEntity.status(HttpStatus.OK).body(listaVisitante);
+	public ResponseEntity<List<Visitante>> listaDeVisitantes() {
+
+		List<Visitante> listaVisitante = visitanteService.ListarTodosVisitantes();
+
+		return ResponseEntity.status(HttpStatus.OK).body(listaVisitante);
 	}
-	
-	@GetMapping("/busca-cpf")
-	public ResponseEntity<Visitante> buscaVisitantePorCpf(@Param("busca-cpf")String cpf){
-		
-		   Visitante visitanteBuscaCpf = visitanteService.buscarPorCpf(cpf);
-		   
-		   return ResponseEntity.status(HttpStatus.OK).body(visitanteBuscaCpf);
+
+	@GetMapping("/busca-por-cpf")
+	public ResponseEntity<Visitante> buscaVisitantePorCpf(@Param(value = "cpf") String cpf) {
+
+		Visitante visitanteBuscaCpf = visitanteService.buscarPorCpf(cpf);
+
+		return ResponseEntity.status(HttpStatus.OK).body(visitanteBuscaCpf);
 	}
-	
+
 	@PutMapping("/{id}")
-	public ResponseEntity<Visitante> atualizarCadastroVisitante(@PathVariable Long id, @RequestBody Visitante visitante){
-		
+	public ResponseEntity<Visitante> atualizarCadastroVisitante(@PathVariable Long id,
+			@RequestBody Visitante visitante) {
+
 		Visitante atualizaVisitante = visitanteService.atualizarCadastroVisitante(visitante, id);
-		
+
 		return ResponseEntity.status(HttpStatus.OK).body(atualizaVisitante);
 	}
-	
+
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Visitante> deletaVisitante(@PathVariable Long id) {
-		
-		Visitante deletarVisitante = visitanteService.deletarVisitantePorId(id);
-		
-		return ResponseEntity.status(HttpStatus.NO_CONTENT).body(deletarVisitante);
+	public ResponseEntity<?> deletaVisitante(@PathVariable Long id) {
+
+		try {
+			visitanteService.deletarVisitantePorId(id);
+
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+		} catch (EntidadeNaoEncontradaException e) {
+
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
+
 	}
 }
-
-
-
-
-
-
-
-
-
