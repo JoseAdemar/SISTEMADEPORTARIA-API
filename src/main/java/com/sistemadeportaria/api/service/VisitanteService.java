@@ -21,19 +21,17 @@ public class VisitanteService {
 	// Metodo para cadastrar um visitante
 	public Visitante cadastrarVisitante(Visitante visitante) {
 
-		Visitante salvarVisitante = visitanteRepository.save(visitante);
-
 		try {
-			if (salvarVisitante.getNome() != null & salvarVisitante.getCpf() != null
-					& salvarVisitante.getTelefone() != null) {
+			Visitante salvarVisitante = visitanteRepository.save(visitante);
 
-				return visitanteRepository.save(visitante);
-			}
+			return salvarVisitante;
+
 		} catch (EmptyResultDataAccessException e) {
 
-			throw new EntidadeNaoEncontradaException("Verifique os campos obrigatórios");
+			throw new EntidadeNaoEncontradaException(String.format("Verifique os campos obrigatórios"));
+
 		}
-		return salvarVisitante;
+
 	}
 
 	// Metodo para listar todos os visitantes
@@ -47,14 +45,23 @@ public class VisitanteService {
 
 	public Visitante buscarPorCpf(String cpf) {
 
-		Optional<Visitante> buscarCpf = visitanteRepository.findByCpf(cpf);
-
-		if (buscarCpf.isPresent()) {
+		try {
+			Optional<Visitante> buscarCpf = visitanteRepository.findByCpf(cpf);
+			
+			if(buscarCpf.isPresent()) {
 
 			return buscarCpf.get();
+			
+			}
+
+			} catch (EmptyResultDataAccessException e) {
+
+			throw new EntidadeNaoEncontradaException
+			(String.format("Visitante não encontrado para o CPF"));
 
 		}
-		return buscarCpf.get();
+	    
+		 return buscarPorCpf(cpf);
 
 	}
 
