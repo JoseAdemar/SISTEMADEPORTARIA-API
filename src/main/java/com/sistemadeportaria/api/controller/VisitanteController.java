@@ -55,7 +55,7 @@ public class VisitanteController {
 
 	//Fazer consulta por CPF
 	@GetMapping("/busca-por-cpf")
-	public ResponseEntity<?> buscaVisitantePorCpf(@Param(value = "cpf") String cpf) {
+	public ResponseEntity<?> buscaVisitantePorCpf(@Valid @Param(value = "cpf") String cpf) {
 
 		try {
 		Visitante visitanteBuscaCpf = visitanteService.buscarPorCpf(cpf);
@@ -63,18 +63,26 @@ public class VisitanteController {
 		return ResponseEntity.status(HttpStatus.OK).body(visitanteBuscaCpf);
 		
 		}catch (EntidadeNaoEncontradaException e) {
+			
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+			
 		}
 	}
 
 	//Atualizar por id
 	@PutMapping("/{id}")
-	public ResponseEntity<Visitante> atualizarCadastroVisitante(@PathVariable Long id,
-			@RequestBody Visitante visitante) {
+	public ResponseEntity<?> atualizarCadastroVisitante(@PathVariable Long id,
+			@Valid @RequestBody Visitante visitante) {
 
+		try {
 		Visitante atualizaVisitante = visitanteService.atualizarCadastroVisitante(visitante, id);
 
 		return ResponseEntity.status(HttpStatus.OK).body(atualizaVisitante);
+		
+		}catch (EntidadeNaoEncontradaException e) {
+			
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+		}
 	}
 
 	//Deletar por id

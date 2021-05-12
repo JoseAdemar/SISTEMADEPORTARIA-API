@@ -21,16 +21,15 @@ public class VisitanteService {
 	// Metodo para cadastrar um visitante
 	public Visitante cadastrarVisitante(Visitante visitante) {
 
-		try {
-			Visitante salvarVisitante = visitanteRepository.save(visitante);
+		Visitante salvarVisitante = visitanteRepository.save(visitante);
+
+		if (salvarVisitante != null) {
 
 			return salvarVisitante;
 
-		} catch (EmptyResultDataAccessException e) {
-
-			throw new EntidadeNaoEncontradaException(String.format("Verifique os campos obrigatórios"));
-
 		}
+
+		throw new EntidadeNaoEncontradaException(String.format("Verifique os campos obrigatórios"));
 
 	}
 
@@ -45,39 +44,35 @@ public class VisitanteService {
 
 	public Visitante buscarPorCpf(String cpf) {
 
-		try {
-			Optional<Visitante> buscarCpf = visitanteRepository.findByCpf(cpf);
-			
-			if(buscarCpf.isPresent()) {
+		Optional<Visitante> buscarCpf = visitanteRepository.findByCpf(cpf);
+
+		if (buscarCpf.isPresent()) {
 
 			return buscarCpf.get();
-			
-			}
-
-			} catch (EmptyResultDataAccessException e) {
-
-			throw new EntidadeNaoEncontradaException
-			(String.format("Visitante não encontrado para o CPF"));
 
 		}
-	    
-		 return buscarPorCpf(cpf);
+
+		throw new EntidadeNaoEncontradaException("Visitante não encontrado para o CPF " + cpf);
 
 	}
 
 	// Metodo para atualizar um visitante
 	public Visitante atualizarCadastroVisitante(Visitante visitante, Long id) {
 
-		Visitante atualizar = visitanteRepository.findById(id).get();
+		try {
+			Visitante atualizar = visitanteRepository.findById(id).get();
 
-		if (atualizar != null) {
+			if (atualizar != null) {
 
-			BeanUtils.copyProperties(visitante, atualizar, "id");
+				BeanUtils.copyProperties(visitante, atualizar, "id");
 
-			visitanteRepository.save(atualizar);
+				visitanteRepository.save(atualizar);
+			}
+		} catch (Exception e) {
+			throw new EntidadeNaoEncontradaException(String.format("Não foi encontrado visitante com o ID " + id));
 		}
 
-		return atualizar;
+		return null;
 	}
 
 	// Metodo para deletarUmVisitante
