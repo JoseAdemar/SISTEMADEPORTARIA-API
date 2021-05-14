@@ -42,9 +42,9 @@ public class VisitanteService {
 
 	// Metodo para buscar por CPF
 
-	public Visitante buscarPorCpf(String cpf, String nome) {
+	public Visitante buscarPorCpf(String nome, String cpf, String telefone) {
 
-		List<Visitante> buscarCpf = visitanteRepository.consultarPorCpf(cpf, nome);
+		List<Visitante> buscarCpf = visitanteRepository.find(nome, cpf, telefone);
 
 		if (buscarCpf != null) {
 

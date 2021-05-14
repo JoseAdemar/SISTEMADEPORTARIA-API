@@ -12,5 +12,7 @@ import com.sistemadeportaria.api.model.Visita;
 public interface VisitaRepository extends JpaRepository<Visita, Long> {
 
 	Optional<Visita> findByDataDaVisita(LocalDateTime dataDaVisita);
+	
+	
 
 }

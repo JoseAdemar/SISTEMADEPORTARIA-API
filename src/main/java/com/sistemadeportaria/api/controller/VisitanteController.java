@@ -55,10 +55,12 @@ public class VisitanteController {
 
 	//Fazer consulta por CPF
 	@GetMapping("/busca-por-cpf")
-	public ResponseEntity<?> buscaVisitantePorCpf(@Valid @Param(value = "cpf") String cpf, String nome) {
+	public ResponseEntity<?> buscaVisitantePorCpf(@Valid @Param(value = "nome") String nome,
+			@Param(value = "cpf")String cpf, 
+			@Param(value = "telefone")String telefone) {
 
 		try {
-		Visitante visitanteBuscaCpf = visitanteService.buscarPorCpf(cpf,nome);
+		Visitante visitanteBuscaCpf = visitanteService.buscarPorCpf(nome,cpf,telefone);
 
 		return ResponseEntity.status(HttpStatus.OK).body(visitanteBuscaCpf);
 		
