@@ -37,8 +37,6 @@ public class VisitaService {
 
 		if (visitante.isPresent() & visitas != null) {
 
-			visitas.dataEHoraAtual();
-
 			return visitaRepository.save(visita);
 		}
 
