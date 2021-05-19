@@ -37,6 +37,7 @@ public class Visita {
 
 	private String observacao;
 
+	
 	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "visitante_id")

@@ -41,7 +41,7 @@ public class VisitanteService {
 
 	// Metodo para buscar por CPF
 
-	public Visitante buscarPorCpf(String nome, String cpf, String telefone) {
+	public Visitante visitanteConsultaDinamica(String nome, String cpf, String telefone) {
 
 		List<Visitante> buscarCpf = visitanteRepository.find(nome, cpf, telefone);
 

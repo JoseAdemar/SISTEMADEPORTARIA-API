@@ -1,26 +1,21 @@
 package com.sistemadeportaria.api.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.sistemadeportaria.api.execoes.EntidadeNaoEncontradaException;
 import com.sistemadeportaria.api.model.Visita;
-import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.repository.VisitaRepository;
-import com.sistemadeportaria.api.repository.VisitanteRepository;
 
 @Service
 public class VisitaService {
 
 	@Autowired
 	private VisitaRepository visitaRepository;
-
-	@Autowired
-	private VisitanteRepository visitanteRepository;
 
 	// Metodo para listar todas as visitas
 	public List<Visita> listarVisitas() {
@@ -31,27 +26,49 @@ public class VisitaService {
 	// Metodo para cadastrar uma visita
 	public Visita cadastrarVisita(Visita visita) {
 
-		Optional<Visitante> visitante = visitanteRepository.findById(visita.getVisitante().getId());
-
 		Visita visitas = visitaRepository.save(visita);
 
-		if (visitante.isPresent() & visitas != null) {
+		if (visitas != null) {
 
-			return visitaRepository.save(visita);
+			return visitas;
 		}
 
-		throw new EntidadeNaoEncontradaException("Não foi possível realizar o cadastro");
+		throw new EntidadeNaoEncontradaException(String.format("Não foi possível realizar o cadastro"));
+
 	}
 
-	public Visita pesquisarVisitaPorDataECpf(LocalDateTime visitaData) {
+	// Metodo para deletar Visita por ID
+	public void deletarVisitaPorId(Long id) {
 
-		Optional<Visita> pesquisaData = visitaRepository.findByDataDaVisita(visitaData);
+		try {
+			visitaRepository.deleteById(id);
 
-		if (pesquisaData.isPresent()) {
+		} catch (EmptyResultDataAccessException e) {
 
-			 pesquisaData.get().getDataDaVisita();
+			throw new EntidadeNaoEncontradaException(String.format("Visita não encontrada para o id: " + id));
 		}
-		return pesquisaData.get();
 
 	}
+	
+	// Metodo para atualizar uma Visita por ID
+	public Visita atualizarVisita(Visita visita, Long id) {
+		
+		  try {
+		  Visita atualiza = visitaRepository.findById(id).get();
+		  
+		  if(atualiza != null) {
+			  
+			  BeanUtils.copyProperties(visita, atualiza, "id");
+			  
+			 return  visitaRepository.save(atualiza);
+		  }
+		  }catch (Exception e) {
+			
+			  throw new EntidadeNaoEncontradaException
+			  (String.format("Não foi encontrada visita com o id: " + id));
+		}
+		  
+		  return null;
+	}
+
 }

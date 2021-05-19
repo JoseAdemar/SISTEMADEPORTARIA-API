@@ -60,7 +60,7 @@ public class VisitanteController {
 			@Param(value = "telefone")String telefone) {
 
 		try {
-		Visitante visitanteBuscaCpf = visitanteService.buscarPorCpf(nome,cpf,telefone);
+		Visitante visitanteBuscaCpf = visitanteService.visitanteConsultaDinamica(nome,cpf,telefone);
 
 		return ResponseEntity.status(HttpStatus.OK).body(visitanteBuscaCpf);
 		
