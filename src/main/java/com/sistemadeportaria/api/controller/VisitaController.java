@@ -1,10 +1,12 @@
 package com.sistemadeportaria.api.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sistemadeportaria.api.execoes.EntidadeNaoEncontradaException;
 import com.sistemadeportaria.api.model.Visita;
+import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.service.VisitaService;
 
 @RestController
@@ -34,6 +37,15 @@ public class VisitaController {
 		List<Visita> listaVisita = visitaService.listarVisitas();
 
 		return ResponseEntity.status(HttpStatus.OK).body(listaVisita);
+	}
+	
+	@GetMapping("/busca")
+	public ResponseEntity<?> listaVisitasDinamicamente(@Param(value = "visita") LocalDateTime dataDaVisita, Visitante visitante){
+		
+		  visitaService.buscaDinamica(dataDaVisita, visitante);
+		  
+		  return ResponseEntity.status(HttpStatus.OK).build();
+		
 	}
 
 	@PostMapping // Metodo para cadastrar uma visita

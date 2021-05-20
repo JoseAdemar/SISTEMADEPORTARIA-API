@@ -1,5 +1,6 @@
 package com.sistemadeportaria.api.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.sistemadeportaria.api.execoes.EntidadeNaoEncontradaException;
 import com.sistemadeportaria.api.model.Visita;
+import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.repository.VisitaRepository;
 
 @Service
@@ -21,6 +23,11 @@ public class VisitaService {
 	public List<Visita> listarVisitas() {
 
 		return visitaRepository.findAll();
+	}
+	
+	public List<Visita> buscaDinamica(LocalDateTime dataDaVisita, Visitante visitante){
+		
+		return visitaRepository.find(dataDaVisita, visitante);
 	}
 
 	// Metodo para cadastrar uma visita
