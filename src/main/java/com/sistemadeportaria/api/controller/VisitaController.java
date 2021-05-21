@@ -39,7 +39,7 @@ public class VisitaController {
 		return ResponseEntity.status(HttpStatus.OK).body(listaVisita);
 	}
 	
-	@GetMapping("/busca")
+	@GetMapping("/busca") // Metodo para fazer uma busca dinamica
 	public ResponseEntity<?> listaVisitasDinamicamente(@Param(value = "visita") LocalDateTime dataDaVisita, Visitante visitante){
 		
 		  visitaService.buscaDinamica(dataDaVisita, visitante);

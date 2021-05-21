@@ -1,7 +1,9 @@
 package com.sistemadeportaria.api.infrastructure.repository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -31,14 +33,20 @@ public class VisitaRepositoryImpl implements VisitaRepositoryQueries {
 		CriteriaQuery<Visita> criteria = builder.createQuery(Visita.class);
 		Root<Visita> root = criteria.from(Visita.class);
 		
-	    Predicate dataDaVisitaPredicate = builder.like(root.get
-				("dataDaVisita"), "%" + dataDaVisita + "%");
+		var predicates = new ArrayList<Predicate>();
+		
+		if (StringUtils.hasText(visitante.getCpf())) {
+			predicates.add(builder.like(root.get("visitante"), "%" + visitante + "%"));
+		}
+		
+		if (dataDaVisita != null) {
+			predicates.add(builder.like(root.get("dataDaVisita"), "%" + dataDaVisita + "%"));
+		}
 		
 		
+		criteria.where(predicates.toArray(new Predicate[0]));
 		
-		criteria.where(dataDaVisitaPredicate);
-		
-		TypedQuery<Visita> query = manager.createQuery(criteria);
+		var query = manager.createQuery(criteria);
 		return query.getResultList();
 	}
 
