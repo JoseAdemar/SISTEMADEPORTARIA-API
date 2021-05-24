@@ -8,8 +8,4 @@ import com.sistemadeportaria.api.model.Visita;
 @Repository
 public interface VisitaRepository extends JpaRepository<Visita, Long>, VisitaRepositoryQueries {
 
-	
-	
-	
-
 }

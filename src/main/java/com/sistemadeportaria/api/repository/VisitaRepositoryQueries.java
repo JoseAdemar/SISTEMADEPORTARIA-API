@@ -8,5 +8,5 @@ import com.sistemadeportaria.api.model.Visitante;
 
 public interface VisitaRepositoryQueries {
 
-	List<Visita> find(LocalDateTime dataDaVisita, Visitante visitante);
+	List<Visita> find(LocalDateTime dataDaVisita, String setor, Visitante visitante);
 }

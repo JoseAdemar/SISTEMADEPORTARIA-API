@@ -25,9 +25,9 @@ public class VisitaService {
 		return visitaRepository.findAll();
 	}
 	// Metodo para realizar uma consulta dinamica
-	public List<Visita> buscaDinamica(LocalDateTime dataDaVisita, Visitante visitante){
+	public List<Visita> buscaDinamica(LocalDateTime dataDaVisita, String setor, Visitante visitante){
 		
-		return visitaRepository.find(dataDaVisita, visitante);
+		return visitaRepository.find(dataDaVisita, setor, visitante);
 	}
 
 	// Metodo para cadastrar uma visita

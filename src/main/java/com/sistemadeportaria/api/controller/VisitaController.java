@@ -6,7 +6,6 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +29,6 @@ public class VisitaController {
 	@Autowired
 	private VisitaService visitaService;
 
-	
 	@GetMapping // Lista todas as visitas
 	public ResponseEntity<List<Visita>> listaVisitas() {
 
@@ -38,14 +36,14 @@ public class VisitaController {
 
 		return ResponseEntity.status(HttpStatus.OK).body(listaVisita);
 	}
-	
+
 	@GetMapping("/busca") // Metodo para fazer uma busca dinamica
-	public ResponseEntity<?> listaVisitasDinamicamente(@Param(value = "visita") LocalDateTime dataDaVisita, Visitante visitante){
-		
-		  visitaService.buscaDinamica(dataDaVisita, visitante);
-		  
-		  return ResponseEntity.status(HttpStatus.OK).build();
-		
+	public ResponseEntity<?> listaVisitasDinamicamente(LocalDateTime dataDaVisita,String setor,Visitante visitante) {
+
+		List<Visita> buscaVisitas = visitaService.buscaDinamica(dataDaVisita, setor, visitante);
+
+		return ResponseEntity.status(HttpStatus.OK).body(buscaVisitas);
+
 	}
 
 	@PostMapping // Metodo para cadastrar uma visita
@@ -61,32 +59,32 @@ public class VisitaController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
-	
-	@DeleteMapping("/{id}") //Metodo para deletar VISITA por ID
-	public ResponseEntity<?> deletaVisitaPorId(@PathVariable Long id){
-		
-		   try {
-		   visitaService.deletarVisitaPorId(id);
-		   
-		   return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		   
-		   }catch (EntidadeNaoEncontradaException e) {
-			
+
+	@DeleteMapping("/{id}") // Metodo para deletar VISITA por ID
+	public ResponseEntity<?> deletaVisitaPorId(@PathVariable Long id) {
+
+		try {
+			visitaService.deletarVisitaPorId(id);
+
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+
+		} catch (EntidadeNaoEncontradaException e) {
+
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 	}
-	
+
 	@PutMapping("/{id}") // Metodo para atualizar uma Visita por ID
 	public ResponseEntity<?> atualizaVisita(@PathVariable Long id, @Valid @RequestBody Visita visita) {
-		
-		  try {
-		     Visita atualiza = visitaService.atualizarVisita(visita, id);
-		  
-		     return ResponseEntity.status(HttpStatus.OK).body(atualiza);
-		     
-		  }catch (EntidadeNaoEncontradaException e) {
-			
-			 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+
+		try {
+			Visita atualiza = visitaService.atualizarVisita(visita, id);
+
+			return ResponseEntity.status(HttpStatus.OK).body(atualiza);
+
+		} catch (EntidadeNaoEncontradaException e) {
+
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 	}
 
