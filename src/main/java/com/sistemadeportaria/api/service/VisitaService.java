@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import com.sistemadeportaria.api.execoes.EntidadeNaoEncontradaException;
 import com.sistemadeportaria.api.model.Visita;
-import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.repository.VisitaRepository;
 
 @Service
@@ -25,9 +24,9 @@ public class VisitaService {
 		return visitaRepository.findAll();
 	}
 	// Metodo para realizar uma consulta dinamica
-	public List<Visita> buscaDinamica(LocalDateTime dataDaVisita, String setor, Visitante visitante){
+	public List<Visita> buscaDinamica(String setor, LocalDateTime dataDaVisita){
 		
-		return visitaRepository.find(dataDaVisita, setor, visitante);
+		return visitaRepository.find(setor, dataDaVisita);
 	}
 
 	// Metodo para cadastrar uma visita

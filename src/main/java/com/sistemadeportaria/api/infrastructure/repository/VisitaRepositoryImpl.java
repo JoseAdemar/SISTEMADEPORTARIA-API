@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import com.sistemadeportaria.api.model.Visita;
-import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.repository.VisitaRepositoryQueries;
 
 @Repository
@@ -22,37 +21,7 @@ public class VisitaRepositoryImpl implements VisitaRepositoryQueries {
 	private EntityManager manager;
 
 	@Override
-	public List<Visita> find(LocalDateTime dataDaVisita, String setor, Visitante visitante) {
-		
-//		CriteriaBuilder builder = manager.getCriteriaBuilder();
-//		
-//		CriteriaQuery<Visita> criteria = builder.createQuery(Visita.class);
-//		Root<Visita> root = criteria.from(Visita.class);
-//		
-//		var predicates = new ArrayList<Predicate>();
-//		
-//
-//		if (dataDaVisita != null) {
-//			predicates.add(builder.greaterThanOrEqualTo(root.get("dataDaVisita"),  dataDaVisita));
-//		}
-//		
-//		if (setor != null)  {
-//			predicates.add(builder.like(root.get("setor"), "%" + setor + "%"));
-//		}
-//		
-//		if (visitante != null) {
-//			predicates.add(builder.like(root.get("visitante"), "%" + visitante.getCpf().toLowerCase() + "%"));
-//		}
-//		
-//		
-//		
-//		
-//		criteria.where(predicates.toArray(new Predicate[0]));
-//		
-//		var query = manager.createQuery(criteria);
-//		return query.getResultList();
-		
-		
+	public List<Visita> find(String setor, LocalDateTime dataDaVisita) {
 		
 		var jpql = new StringBuilder();
 		jpql.append("from Visita where 0 = 0 ");
@@ -65,15 +34,12 @@ public class VisitaRepositoryImpl implements VisitaRepositoryQueries {
 		}
 		
 		if (dataDaVisita != null) {
+	
 			jpql.append("and dataDaVisita like :dataDaVisita ");
-			parametros.put("dataDaVisita", dataDaVisita);
+			parametros.put("dataDaVisita", "%" + dataDaVisita + "%");
 		}
 		
-		if (visitante != null) {
-			jpql.append("and visitante like :visitante ");
-			parametros.put("visitante", visitante.getCpf());
-		}
-		
+	
 		TypedQuery<Visita> query = manager
 				.createQuery(jpql.toString(), Visita.class);
 		

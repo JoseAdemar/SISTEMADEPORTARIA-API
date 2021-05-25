@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sistemadeportaria.api.execoes.EntidadeNaoEncontradaException;
 import com.sistemadeportaria.api.model.Visita;
-import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.service.VisitaService;
 
 @RestController
@@ -38,9 +37,9 @@ public class VisitaController {
 	}
 
 	@GetMapping("/busca") // Metodo para fazer uma busca dinamica
-	public ResponseEntity<?> listaVisitasDinamicamente(LocalDateTime dataDaVisita,String setor,Visitante visitante) {
+	public ResponseEntity<?> listaVisitasDinamicamente(String setor, LocalDateTime dataDaVisita) {
 
-		List<Visita> buscaVisitas = visitaService.buscaDinamica(dataDaVisita, setor, visitante);
+		List<Visita> buscaVisitas = visitaService.buscaDinamica(setor, dataDaVisita);
 
 		return ResponseEntity.status(HttpStatus.OK).body(buscaVisitas);
 
