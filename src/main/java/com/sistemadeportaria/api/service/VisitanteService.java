@@ -14,6 +14,10 @@ import com.sistemadeportaria.api.repository.VisitanteRepository;
 @Service
 public class VisitanteService {
 
+	private static final String NAO_FOI_ENCONTRADO = "Não foi encontrado visitante com o ID ";
+
+	private static final String CAMPOS_OBRIGATÓRIOS = "Verifique os campos obrigatórios";
+
 	@Autowired
 	private VisitanteRepository visitanteRepository;
 
@@ -21,14 +25,11 @@ public class VisitanteService {
 	public Visitante cadastrarVisitante(Visitante visitante) {
 
 		Visitante salvarVisitante = visitanteRepository.save(visitante);
-
 		if (salvarVisitante != null) {
-
 			return salvarVisitante;
-
 		}
 
-		throw new EntidadeNaoEncontradaException(String.format("Verifique os campos obrigatórios"));
+		throw new EntidadeNaoEncontradaException(String.format(CAMPOS_OBRIGATÓRIOS));
 
 	}
 
@@ -53,12 +54,12 @@ public class VisitanteService {
 
 		}
 
-		throw new EntidadeNaoEncontradaException("Visitante não encontrado para o CPF " + cpf);
+		throw new EntidadeNaoEncontradaException("Visitante não encontrado");
 
 	}
 
 	// Metodo para atualizar um visitante
-	public Visitante atualizarCadastroVisitante(Visitante visitante, Long id) {
+	public void atualizarCadastroVisitante(Visitante visitante, Long id) {
 
 		try {
 			Visitante atualizar = visitanteRepository.findById(id).get();
@@ -70,10 +71,9 @@ public class VisitanteService {
 				visitanteRepository.save(atualizar);
 			}
 		} catch (Exception e) {
-			throw new EntidadeNaoEncontradaException(String.format("Não foi encontrado visitante com o ID " + id));
+			throw new EntidadeNaoEncontradaException(String.format(NAO_FOI_ENCONTRADO + id));
 		}
 
-		return null;
 	}
 
 	// Metodo para deletarUmVisitante
@@ -86,8 +86,7 @@ public class VisitanteService {
 
 		} catch (EmptyResultDataAccessException e) {
 
-			throw new EntidadeNaoEncontradaException(
-					String.format("Não existe um cadastro de visitante com código %d", id));
+			throw new EntidadeNaoEncontradaException(String.format(NAO_FOI_ENCONTRADO + id));
 		}
 
 	}

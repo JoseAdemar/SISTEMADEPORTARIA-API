@@ -48,15 +48,8 @@ public class VisitaController {
 	@PostMapping // Metodo para cadastrar uma visita
 	public ResponseEntity<?> cadastroVisita(@Valid @RequestBody Visita visita) {
 
-		try {
-			Visita visitas = visitaService.cadastrarVisita(visita);
-
-			return ResponseEntity.status(HttpStatus.CREATED).body(visitas);
-
-		} catch (EntidadeNaoEncontradaException e) {
-
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-		}
+		Visita visitas = visitaService.cadastrarVisita(visita);
+		return ResponseEntity.status(HttpStatus.CREATED).body(visitas);
 	}
 
 	@DeleteMapping("/{id}") // Metodo para deletar VISITA por ID
