@@ -1,16 +1,21 @@
 package com.sistemadeportaria.api.infrastructure.repository;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.Temporal;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
+import javax.swing.text.DateFormatter;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.sistemadeportaria.api.model.Visita;
 import com.sistemadeportaria.api.repository.VisitaRepositoryQueries;
 
@@ -34,9 +39,8 @@ public class VisitaRepositoryImpl implements VisitaRepositoryQueries {
 		}
 		
 		if (dataDaVisita != null) {
-	
-			jpql.append("and dataDaVisita like :dataDaVisita ");
-			parametros.put("dataDaVisita", "%" + dataDaVisita + "%");
+			jpql.append("and dataDaVisita = :dataDaVisita ");
+			parametros.put("dataDaVisita",  dataDaVisita );
 		}
 		
 	
