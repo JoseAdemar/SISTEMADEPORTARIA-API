@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sistemadeportaria.api.execoes.EntidadeNaoEncontradaException;
 import com.sistemadeportaria.api.model.Visita;
+import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.service.VisitaService;
 
 @RestController
@@ -37,9 +38,9 @@ public class VisitaController {
 	}
 
 	@GetMapping("/busca") // Metodo para fazer uma busca dinamica
-	public ResponseEntity<?> listaVisitasDinamicamente(String setor, LocalDateTime dataDaVisita) {
+	public ResponseEntity<?> listaVisitasDinamicamente(String setor, LocalDateTime dataDaVisita, Visitante visitante) {
 
-		List<Visita> buscaVisitas = visitaService.buscaDinamica(setor, dataDaVisita);
+		List<Visita> buscaVisitas = visitaService.buscaDinamica(setor, dataDaVisita, visitante);
 
 		return ResponseEntity.status(HttpStatus.OK).body(buscaVisitas);
 
@@ -49,7 +50,9 @@ public class VisitaController {
 	public ResponseEntity<?> cadastroVisita(@Valid @RequestBody Visita visita) {
 
 		Visita visitas = visitaService.cadastrarVisita(visita);
+
 		return ResponseEntity.status(HttpStatus.CREATED).body(visitas);
+
 	}
 
 	@DeleteMapping("/{id}") // Metodo para deletar VISITA por ID

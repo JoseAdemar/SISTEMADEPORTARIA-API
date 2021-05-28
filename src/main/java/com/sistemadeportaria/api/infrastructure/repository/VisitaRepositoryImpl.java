@@ -1,22 +1,18 @@
 package com.sistemadeportaria.api.infrastructure.repository;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.Temporal;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
-import javax.swing.text.DateFormatter;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.sistemadeportaria.api.model.Visita;
+import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.repository.VisitaRepositoryQueries;
 
 @Repository
@@ -26,7 +22,7 @@ public class VisitaRepositoryImpl implements VisitaRepositoryQueries {
 	private EntityManager manager;
 
 	@Override
-	public List<Visita> find(String setor, LocalDateTime dataDaVisita) {
+	public List<Visita> find(String setor, LocalDateTime dataDaVisita, Visitante visitante) {
 		
 		var jpql = new StringBuilder();
 		jpql.append("from Visita where 0 = 0 ");
@@ -43,7 +39,12 @@ public class VisitaRepositoryImpl implements VisitaRepositoryQueries {
 			parametros.put("dataDaVisita",  dataDaVisita );
 		}
 		
-	
+		if (visitante.getCpf() != null) {
+			jpql.append("and visitante = :visitante ");
+			parametros.put("visitante",  visitante.getCpf() );
+		}
+		
+		
 		TypedQuery<Visita> query = manager
 				.createQuery(jpql.toString(), Visita.class);
 		
