@@ -40,8 +40,8 @@ public class VisitaRepositoryImpl implements VisitaRepositoryQueries {
 		}
 		
 		if (visitante.getCpf() != null) {
-			jpql.append("and visitante = :visitante ");
-			parametros.put("visitante",  visitante.getCpf() );
+			jpql.append("and visitante.cpf = :visitanteCpf ");
+			parametros.put("visitanteCpf",  visitante.getCpf() );
 		}
 		
 		

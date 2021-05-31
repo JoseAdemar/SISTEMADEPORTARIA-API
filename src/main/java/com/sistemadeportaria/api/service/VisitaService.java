@@ -12,7 +12,6 @@ import com.sistemadeportaria.api.execoes.EntidadeNaoEncontradaException;
 import com.sistemadeportaria.api.model.Visita;
 import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.repository.VisitaRepository;
-import com.sistemadeportaria.api.repository.VisitanteRepository;
 
 @Service
 public class VisitaService {
