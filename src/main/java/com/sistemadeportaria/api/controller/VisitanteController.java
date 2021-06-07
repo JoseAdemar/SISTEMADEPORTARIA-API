@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sistemadeportaria.api.execoes.EntidadeNaoEncontradaException;
 import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.service.VisitanteService;
 
@@ -52,6 +53,7 @@ public class VisitanteController {
 
 		Visitante visitanteBuscaCpf = visitanteService.visitanteConsultaDinamica(nome, cpf, telefone);
 		return ResponseEntity.status(HttpStatus.OK).body(visitanteBuscaCpf);
+
 	}
 
 	// Atualizar por id

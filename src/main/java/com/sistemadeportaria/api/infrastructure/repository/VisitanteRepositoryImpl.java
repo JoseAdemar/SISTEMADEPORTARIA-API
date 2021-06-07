@@ -35,13 +35,13 @@ public class VisitanteRepositoryImpl implements VisitanteRepositoryQueries {
 
 		if (cpf != null) {
 
-			jpql.append("and cpf like :cpf ");
+			jpql.append("and cpf = :cpf ");
 			parametros.put("cpf", cpf);
 		}
 
 		if (telefone != null) {
 
-			jpql.append("and telefone like :telefone ");
+			jpql.append("and telefone = :telefone ");
 			parametros.put("telefone", telefone);
 		}
 

@@ -14,10 +14,6 @@ import com.sistemadeportaria.api.repository.VisitanteRepository;
 @Service
 public class VisitanteService {
 
-	private static final String NAO_FOI_ENCONTRADO = "Não foi encontrado visitante com o ID ";
-
-	private static final String CAMPOS_OBRIGATÓRIOS = "Verifique os campos obrigatórios";
-
 	@Autowired
 	private VisitanteRepository visitanteRepository;
 
@@ -25,12 +21,8 @@ public class VisitanteService {
 	public Visitante cadastrarVisitante(Visitante visitante) {
 
 		Visitante salvarVisitante = visitanteRepository.save(visitante);
-		if (salvarVisitante != null) {
-			return salvarVisitante;
-		}
 
-		throw new EntidadeNaoEncontradaException(String.format(CAMPOS_OBRIGATÓRIOS));
-
+		return salvarVisitante;
 	}
 
 	// Metodo para listar todos os visitantes
@@ -51,10 +43,8 @@ public class VisitanteService {
 			for (Visitante visitante : buscarCpf) {
 				return visitante;
 			}
-
 		}
-
-		throw new EntidadeNaoEncontradaException("Visitante não encontrado");
+		throw new EntidadeNaoEncontradaException(String.format("O dado informado não foi encontrado"));
 
 	}
 
@@ -70,8 +60,9 @@ public class VisitanteService {
 
 				visitanteRepository.save(atualizar);
 			}
-		} catch (Exception e) {
-			throw new EntidadeNaoEncontradaException(String.format(NAO_FOI_ENCONTRADO + id));
+		} catch (EmptyResultDataAccessException e) {
+			throw new EntidadeNaoEncontradaException
+			(e.getMessage());
 		}
 
 	}
@@ -86,7 +77,8 @@ public class VisitanteService {
 
 		} catch (EmptyResultDataAccessException e) {
 
-			throw new EntidadeNaoEncontradaException(String.format(NAO_FOI_ENCONTRADO + id));
+			throw new EntidadeNaoEncontradaException
+			(String.format("Não foi encontrado dados para o ID: " + id));
 		}
 
 	}
