@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sistemadeportaria.api.execoes.EntidadeNaoEncontradaException;
+import com.sistemadeportaria.api.exception.EntidadeNaoEncontradaException;
 import com.sistemadeportaria.api.model.Visita;
 import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.service.VisitaService;

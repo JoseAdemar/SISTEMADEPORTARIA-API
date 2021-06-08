@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.sistemadeportaria.api.execoes.EntidadeNaoEncontradaException;
+import com.sistemadeportaria.api.exception.VisitaNaoEncontradaException;
+import com.sistemadeportaria.api.exception.VisitanteNaoEncontradoException;
 import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.repository.VisitanteRepository;
 
@@ -32,8 +33,8 @@ public class VisitanteService {
 
 	}
 
+	
 	// Metodo para buscar por CPF
-
 	public Visitante visitanteConsultaDinamica(String nome, String cpf, String telefone) {
 
 		List<Visitante> buscarCpf = visitanteRepository.find(nome, cpf, telefone);
@@ -44,25 +45,22 @@ public class VisitanteService {
 				return visitante;
 			}
 		}
-		throw new EntidadeNaoEncontradaException(String.format("O dado informado não foi encontrado"));
+
+		throw new VisitanteNaoEncontradoException(String.format("Não foi encontrado os dados informados"));
 
 	}
 
 	// Metodo para atualizar um visitante
 	public void atualizarCadastroVisitante(Visitante visitante, Long id) {
 
-		try {
-			Visitante atualizar = visitanteRepository.findById(id).get();
+		Visitante atualizar = visitanteRepository.findById(id)
+				.orElseThrow(() -> new VisitanteNaoEncontradoException(id));
 
-			if (atualizar != null) {
+		if (atualizar != null) {
 
-				BeanUtils.copyProperties(visitante, atualizar, "id");
+			BeanUtils.copyProperties(visitante, atualizar, "id");
 
-				visitanteRepository.save(atualizar);
-			}
-		} catch (EmptyResultDataAccessException e) {
-			throw new EntidadeNaoEncontradaException
-			(e.getMessage());
+			visitanteRepository.save(atualizar);
 		}
 
 	}
@@ -77,10 +75,9 @@ public class VisitanteService {
 
 		} catch (EmptyResultDataAccessException e) {
 
-			throw new EntidadeNaoEncontradaException
-			(String.format("Não foi encontrado dados para o ID: " + id));
-		}
+			throw new VisitaNaoEncontradaException(id);
 
+		}
 	}
 
 }

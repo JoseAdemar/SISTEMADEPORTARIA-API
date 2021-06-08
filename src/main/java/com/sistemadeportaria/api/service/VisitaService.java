@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
-import com.sistemadeportaria.api.execoes.EntidadeNaoEncontradaException;
+import com.sistemadeportaria.api.exception.EntidadeNaoEncontradaException;
 import com.sistemadeportaria.api.model.Visita;
 import com.sistemadeportaria.api.model.Visitante;
 import com.sistemadeportaria.api.repository.VisitaRepository;

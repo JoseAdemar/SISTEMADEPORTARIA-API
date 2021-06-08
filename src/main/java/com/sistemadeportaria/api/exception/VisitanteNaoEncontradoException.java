@@ -1,4 +1,4 @@
-package com.sistemadeportaria.api.execoes;
+package com.sistemadeportaria.api.exception;
 
 public class VisitanteNaoEncontradoException extends EntidadeNaoEncontradaException {
 
