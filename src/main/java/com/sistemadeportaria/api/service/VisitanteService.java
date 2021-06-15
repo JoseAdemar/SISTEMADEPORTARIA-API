@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.sistemadeportaria.api.exception.EntidadeNaoEncontradaException;
+import com.sistemadeportaria.api.exception.NegocioException;
 import com.sistemadeportaria.api.exception.VisitaNaoEncontradaException;
 import com.sistemadeportaria.api.exception.VisitanteNaoEncontradoException;
 import com.sistemadeportaria.api.model.Visitante;
@@ -33,8 +35,7 @@ public class VisitanteService {
 
 	}
 
-	
-	// Metodo para buscar por CPF
+	// Metodo para fazer busca dinamica
 	public Visitante visitanteConsultaDinamica(String nome, String cpf, String telefone) {
 
 		List<Visitante> buscarCpf = visitanteRepository.find(nome, cpf, telefone);
@@ -44,9 +45,9 @@ public class VisitanteService {
 			for (Visitante visitante : buscarCpf) {
 				return visitante;
 			}
-		}
 
-		throw new VisitanteNaoEncontradoException(String.format("Não foi encontrado os dados informados"));
+		}
+		throw new EntidadeNaoEncontradaException("sdfdsf");
 
 	}
 
