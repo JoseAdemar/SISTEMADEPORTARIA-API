@@ -8,7 +8,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.sistemadeportaria.api.exception.EntidadeNaoEncontradaException;
-import com.sistemadeportaria.api.exception.NegocioException;
 import com.sistemadeportaria.api.exception.VisitaNaoEncontradaException;
 import com.sistemadeportaria.api.exception.VisitanteNaoEncontradoException;
 import com.sistemadeportaria.api.model.Visitante;
@@ -79,6 +78,12 @@ public class VisitanteService {
 			throw new VisitaNaoEncontradaException(id);
 
 		}
+	}
+	
+	// Metodo para buscar um visitante por ID
+	public Visitante buscarVisitantePorId(Long id) {
+		
+		return visitanteRepository.findById(id).get();
 	}
 
 }

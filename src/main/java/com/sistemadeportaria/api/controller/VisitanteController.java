@@ -65,6 +65,17 @@ public class VisitanteController {
 		return ResponseEntity.status(HttpStatus.OK).body(visitante);
 
 	}
+	
+	// Buscar por id
+		@GetMapping("/{id}")
+		public ResponseEntity<?> buscaVisitantePorId(@PathVariable Long id) {
+
+			Visitante buscaPorId = visitanteService.buscarVisitantePorId(id);
+
+			return ResponseEntity.status(HttpStatus.OK).body(buscaPorId);
+
+		}
+
 
 	// Deletar por id
 	@DeleteMapping("/{id}")

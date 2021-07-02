@@ -77,5 +77,12 @@ public class VisitaService {
 
 		return null;
 	}
+	
+	
+	// Metodo para buscar um visita por ID
+		public Visita buscarVisitaPorId(Long id) {
+			
+			return visitaRepository.findById(id).get();
+		}
 
 }

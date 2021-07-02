@@ -85,5 +85,16 @@ public class VisitaController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
 	}
+	
+	        // Buscar por id
+			@GetMapping("/{id}")
+			public ResponseEntity<?> buscaVisitaPorId(@PathVariable Long id) {
+
+				Visita buscaPorId = visitaService.buscarVisitaPorId(id);
+
+				return ResponseEntity.status(HttpStatus.OK).body(buscaPorId);
+
+			}
+
 
 }
